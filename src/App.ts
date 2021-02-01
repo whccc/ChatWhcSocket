@@ -1,6 +1,20 @@
-const server = require('http').createServer();
+const express = require('express');
+const app = express();
 
-const io = require('socket.io')(server, {
+const SocketIO = require('socket.io');
+
+//setting
+app.set('port', process.env.PORT || 3001);
+
+//Middlewares
+//app.disable('x-powered-by');
+
+//Server
+const server = app.listen(app.get('port'), () => {
+  console.log('server en el puierto 4001', app.get('port'));
+});
+//Socket
+const io = SocketIO(server, {
   cors: {
     origin: 'http://192.168.1.56:19006',
     methods: ['GET', 'POST']
@@ -33,4 +47,3 @@ io.on('connection', (client) => {
   });
 });
 console.log('Listening for the port 3000');
-server.listen(3001);
